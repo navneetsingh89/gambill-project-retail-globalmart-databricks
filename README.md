@@ -3,53 +3,85 @@ This is my first databricks project shared by Gambill
 
 
 
-## Entity Relationship Diagram (ERD)
+## Entity Relationship Diagram (ERD) of Silver Layer
 
 ```mermaid
 erDiagram
+    FACT_SALES {
+        BIGINT customer_key
+        BIGINT product_key
+        INT order_date_key
+        INT ship_date_key
+        STRING order_id
+        STRING ship_mode
+        INT quantity
+        DECIMAL sales_amount
+        DECIMAL discount_amount
+        DECIMAL profit_amount
+        TIMESTAMP ingestion_ts
+        STRING source_file_path
+        TIMESTAMP load_timestamp
+    }
+
     DIM_CUSTOMER {
-        bigint customer_key PK
-        string customer_id
-        string customer_name
-        string customer_segment
-        string country
-        string city
-        string state
-        string postal_code
-        string region
-        string customer_hash
-        timestamp effective_start_timestamp
-        timestamp effective_end_timestamp
-        boolean is_current_record
-        timestamp load_timestamp
-        string batch_id
+        BIGINT customer_key PK
+        STRING customer_id
+        STRING customer_name
+        STRING customer_segment
+        STRING country
+        STRING city
+        STRING state
+        STRING postal_code
+        STRING region
+        STRING customer_hash
+        TIMESTAMP effective_start_timestamp
+        TIMESTAMP effective_end_timestamp
+        BOOLEAN is_current_record
+        TIMESTAMP load_timestamp
+        STRING batch_id
     }
 
     DIM_PRODUCT {
-        bigint product_key PK
-        string product_id
-        string product_name
-        string category
-        string sub_category
-        string product_hash
-        timestamp effective_start_timestamp
-        timestamp effective_end_timestamp
-        boolean is_current_record
+        BIGINT product_key PK
+        STRING product_id
+        STRING product_name
+        STRING category
+        STRING sub_category
+        STRING product_hash
+        TIMESTAMP effective_start_timestamp
+        TIMESTAMP effective_end_timestamp
+        BOOLEAN is_current_record
+        TIMESTAMP load_timestamp
+        STRING batch_id
     }
 
-    FACT_SALES {
-        bigint sales_key PK
-        string order_id
-        bigint customer_key FK
-        bigint product_key FK
-        date order_date
-        date ship_date
-        int quantity
-        decimal sales
-        decimal discount
-        decimal profit
-        timestamp load_timestamp
+    DIM_DATE {
+        INT date_key PK
+        DATE date
+        INT day
+        STRING day_name
+        INT day_of_week
+        INT day_of_year
+        INT week_of_year
+        STRING year_week
+        INT month
+        STRING month_name
+        STRING year_month
+        INT quarter
+        STRING quarter_name
+        INT year
+        BOOLEAN is_weekend
+        BOOLEAN is_weekday
+        BOOLEAN is_month_start
+        BOOLEAN is_month_end
+        BOOLEAN is_quarter_start
+        BOOLEAN is_quarter_end
+        BOOLEAN is_year_start
+        BOOLEAN is_year_end
+        TIMESTAMP load_timestamp
     }
 
-    DIM_CUSTOMER ||--o{ FACT_SALES : "customer_key"
-    DIM_PRODUCT ||--o{ FACT_SALES : "product_key"
+    DIM_CUSTOMER ||--o{ FACT_SALES : customer_key
+    DIM_PRODUCT  ||--o{ FACT_SALES : product_key
+    DIM_DATE     ||--o{ FACT_SALES : order_date_key
+    DIM_DATE     ||--o{ FACT_SALES : ship_date_key
