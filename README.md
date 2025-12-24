@@ -8,16 +8,20 @@ This is my first databricks project shared by Gambill
 ```mermaid
 erDiagram
     FACT_SALES {
-        BIGINT customer_key
-        BIGINT product_key
-        INT order_date_key
-        INT ship_date_key
+        BIGINT fact_sales_key PK
+        BIGINT customer_key FK
+        BIGINT product_key FK
+        INT order_date_key FK
+        INT ship_date_key FK
         STRING order_id
         STRING ship_mode
-        INT quantity
+        INT order_quantity
         DECIMAL sales_amount
         DECIMAL discount_amount
         DECIMAL profit_amount
+        BOOLEAN is_return
+        INT abs_order_quantity
+        DECIMAL abs_sales_amount
         TIMESTAMP ingestion_ts
         STRING source_file_path
         TIMESTAMP load_timestamp
