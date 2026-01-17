@@ -11,6 +11,7 @@ erDiagram
         BIGINT fact_sales_key PK
         BIGINT customer_key FK
         BIGINT product_key FK
+        BIGINT region_key FK
         INT order_date_key FK
         INT ship_date_key FK
         STRING order_id
@@ -59,6 +60,18 @@ erDiagram
         STRING batch_id
     }
 
+    DIM_REGION {
+        BIGINT region_key PK
+        STRING country
+        STRING state
+        STRING city
+        STRING postal_code
+        STRING region_name
+        TIMESTAMP load_timestamp
+        STRING batch_id
+    }
+
+
     DIM_DATE {
         INT date_key PK
         DATE date
@@ -87,5 +100,6 @@ erDiagram
 
     DIM_CUSTOMER ||--o{ FACT_SALES : customer_key
     DIM_PRODUCT  ||--o{ FACT_SALES : product_key
+    DIM_REGION   ||--o{ FACT_SALES : region_key
     DIM_DATE     ||--o{ FACT_SALES : order_date_key
     DIM_DATE     ||--o{ FACT_SALES : ship_date_key
